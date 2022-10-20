@@ -24,9 +24,17 @@ class Mobalytics_API:
         champ_links = soup.find_all("a")  # Gives all links
 
         # Splits the link by the / delimeter and returns the champ's name thats in pos 3
-        champsList = [link.get("href").split("/")[3] for link in champ_links]
+        champsList = dict()
+        for link in champ_links:
+            champsList[link.get("href").split("/")[3]] = (
+                self.mobalytics_icons_url + link.get("href").split("/")[3] + ".png"
+            )
+
         return champsList
 
 
-api = Mobalytics_API()
-print(api.getChampionsList())
+if __name__ == "__main__":
+    api = Mobalytics_API()
+    champsList = api.getChampionsList()
+
+    print(list(champsList))
